@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspirational Quote Explorer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #89f7fe, #66a6ff);
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #quote-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        #quote {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        #author {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        button {
+            background: #66a6ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5591e6;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Inspirational Quote Explorer</h1>
+    <div id="quote-box">
+        <div id="quote">"Click the button to get inspired!"</div>
+        <div id="author">- Unknown</div>
+    </div>
+    <input type="text" id="search" placeholder="Search by keyword..." oninput="filterQuotes()">
+    <button onclick="generateQuote()">New Quote</button>
+    <button onclick="saveFavorite()">Save to Favorites</button>
+    <div id="favorites" class="hidden">
+        <h2>Your Favorites</h2>
+        <ul id="favorite-list"></ul>
+    </div>
+
+    <a href="about.html">Back to Previous Page</a>
+
+    <script>
+        const quotes = [
+            { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+            { text: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+            { text: "Success is not the key to happiness. Happiness is the key to success.", author: "Albert Schweitzer" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+            { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+            { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+            { text: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+            { text: "Success is not the key to happiness. Happiness is the key to success.", author: "Albert Schweitzer" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+            { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+            { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+            { text: "Everything you can imagine is real.", author: "Pablo Picasso" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "In the middle of every difficulty lies opportunity.", author: "Albert Einstein" },
+            { text: "Your life does not get better by chance, it gets better by change.", author: "Jim Rohn" },
+            { text: "Success is not how high you have climbed, but how you make a positive difference to the world.", author: "Roy T. Bennett" },
+            { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Don’t watch the clock; do what it does. Keep going.", author: "Sam Levenson" }
+        ];
+
+        let currentQuote = null;
+        let favorites = [];
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            currentQuote = quotes[randomIndex];
+            document.getElementById("quote").textContent = `"${currentQuote.text}"`;
+            document.getElementById("author").textContent = `- ${currentQuote.author}`;
+        }
+
+        function saveFavorite() {
+            if (currentQuote && !favorites.includes(currentQuote)) {
+                favorites.push(currentQuote);
+                updateFavoriteList();
+                document.getElementById("favorites").classList.remove("hidden");
+            }
+        }
+
+        function updateFavoriteList() {
+            const favoriteList = document.getElementById("favorite-list");
+            favoriteList.innerHTML = "";
+            favorites.forEach((quote, index) => {
+                const li = document.createElement("li");
+                li.textContent = `"${quote.text}" - ${quote.author}`;
+                favoriteList.appendChild(li);
+            });
+        }
+
+        function filterQuotes() {
+            const keyword = document.getElementById("search").value.toLowerCase();
+            const filteredQuotes = quotes.filter(quote => 
+                quote.text.toLowerCase().includes(keyword) || 
+                quote.author.toLowerCase().includes(keyword)
+            );
+
+            if (filteredQuotes.length > 0) {
+                const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+                const quote = filteredQuotes[randomIndex];
+                document.getElementById("quote").textContent = `"${quote.text}"`;
+                document.getElementById("author").textContent = `- ${quote.author}`;
+            } else {
+                document.getElementById("quote").textContent = `"No quotes found for '${keyword}'"`;
+                document.getElementById("author").textContent = "";
+            }
+        }
+    </script>
+</body>
+</html>
